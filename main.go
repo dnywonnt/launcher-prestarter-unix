@@ -110,7 +110,7 @@ func main() {
 		fmt.Print(PROJECT_HELLO_TEXT)
 		fmt.Scanln()
 
-		if mkderr := os.Mkdir(baseDir, 0755); mkderr != nil {
+		if mkderr := os.MkdirAll(baseDir, 0755); mkderr != nil {
 			log.Fatal(mkderr)
 		}
 		log.Infof("Директория '%v' создана.", baseDir)
