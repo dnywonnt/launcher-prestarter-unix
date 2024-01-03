@@ -161,19 +161,17 @@ func main() {
 		// проверяем существование директорий JAVA
 		if _, osserr := os.Stat(dir); os.IsNotExist(osserr) {
 			// проверяем тип архива
-			switch ext := filepath.Ext(filePathes[i]); ext {
-			case ".gz", ".zip":
-				var uerr error
-				if ext == ".gz" {
-					uerr = utils.UnpackTarGz(filePathes[i], dirs[0], fmt.Sprintf("Распаковка '%v':", filepath.Base(filePathes[i])))
-				} else if ext == ".zip" {
-					uerr = utils.UnzipFile(filePathes[i], dirs[0], fmt.Sprintf("Распаковка '%v':", filepath.Base(filePathes[i])))
-				}
-				if uerr != nil {
-					log.Fatal(uerr)
-				}
-				log.Infof("Архив '%v' распакован.", filepath.Base(filePathes[i]))
+			var uerr error
+			switch filepath.Ext(filePathes[i]) {
+			case ".gz":
+				uerr = utils.UnpackTarGz(filePathes[i], dirs[0], fmt.Sprintf("Распаковка '%v':", filepath.Base(filePathes[i])))
+			case ".zip":
+				uerr = utils.UnzipFile(filePathes[i], dirs[0], fmt.Sprintf("Распаковка '%v':", filepath.Base(filePathes[i])))
 			}
+			if uerr != nil {
+				log.Fatal(uerr)
+			}
+			log.Infof("Архив '%v' распакован.", filepath.Base(filePathes[i]))
 		} else {
 			log.Infof("Директория '%v' найдена.", dir)
 		}
